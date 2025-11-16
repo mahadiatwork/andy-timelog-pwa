@@ -87,6 +87,12 @@ A Progressive Web App (PWA) time logging portal for Tidwell Roofing & Sheet Meta
 - **Build**: `npm run build`
 - **Preview**: `npm run preview`
 
+## Demo Credentials
+For testing purposes, use any of these credentials to login:
+- Username: `tidwell` / Password: `roofing`
+- Username: `admin` / Password: `password`
+- Username: `employee` / Password: `demo1234`
+
 ## Recent Changes
 - **November 16, 2025**: Complete application redesign
   - Implemented React Router for multi-page navigation

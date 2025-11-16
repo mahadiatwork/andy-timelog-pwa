@@ -20,8 +20,19 @@ function Login({ onLogin }: LoginProps) {
       return
     }
     
-    if (password.length < 4) {
-      setError('Invalid credentials. Please try again.')
+    const validCredentials = [
+      { username: 'admin', password: 'password' },
+      { username: 'tidwell', password: 'roofing' },
+      { username: 'employee', password: 'demo1234' }
+    ]
+    
+    const isValid = validCredentials.some(
+      cred => cred.username.toLowerCase() === username.trim().toLowerCase() && 
+              cred.password === password
+    )
+    
+    if (!isValid) {
+      setError('Invalid username or password. Try: tidwell / roofing')
       return
     }
     
