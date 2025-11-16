@@ -5,9 +5,10 @@ import './Dashboard.css'
 
 function Dashboard() {
   const navigate = useNavigate()
-  const { getJobSummaries } = useTimeLog()
+  const { getJobSummaries, getRecentEntries } = useTimeLog()
   const [searchTerm, setSearchTerm] = useState('')
   const jobSummaries = getJobSummaries()
+  const recentEntries = getRecentEntries(10)
   
   const filteredJobs = jobSummaries.filter(job =>
     job.jobName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -60,6 +61,29 @@ function Dashboard() {
             </div>
           )}
         </section>
+
+        {recentEntries.length > 0 && (
+          <section className="recent-entries-section">
+            <h2>Recent Time Entries</h2>
+            <div className="entries-list">
+              {recentEntries.map((entry) => (
+                <div key={entry.id} className="entry-card">
+                  <div className="entry-header">
+                    <h3>{entry.jobName}</h3>
+                    <span className="entry-hours">{entry.totalHours.toFixed(1)}h</span>
+                  </div>
+                  <div className="entry-details">
+                    <span className="entry-employee">👤 {entry.employee}</span>
+                    <span className="entry-date">📅 {new Date(entry.date).toLocaleDateString()}</span>
+                  </div>
+                  {entry.notes && (
+                    <p className="entry-notes">{entry.notes}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   )
