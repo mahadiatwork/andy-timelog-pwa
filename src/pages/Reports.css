@@ -1,0 +1,138 @@
+.reports {
+  padding-bottom: 80px;
+}
+
+.reports-header {
+  background: linear-gradient(135deg, #2E5A8E 0%, #1a3a5f 100%);
+  color: white;
+  padding: 20px;
+}
+
+.reports-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.reports-content {
+  padding: 20px;
+}
+
+.summary-section {
+  margin-bottom: 30px;
+}
+
+.summary-section h2 {
+  color: #2E5A8E;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.period-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.period-tabs button {
+  flex: 1;
+  padding: 10px 16px;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.period-tabs button.active {
+  background: #0066ff;
+  color: white;
+  border-color: #0066ff;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.summary-card {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.summary-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.summary-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0066ff;
+}
+
+.entries-section h2 {
+  color: #2E5A8E;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.empty-state {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entry-item {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.entry-main h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.entry-meta {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.entry-hours {
+  display: flex;
+  align-items: center;
+}
+
+.hours-value {
+  background: #2E5A8E;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
