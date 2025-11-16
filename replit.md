@@ -18,22 +18,24 @@ A Progressive Web App (PWA) time logging portal for Tidwell Roofing & Sheet Meta
 ## Features
 1. **Login Screen**
    - Displays Tidwell logo prominently
-   - Simple username/password authentication
+   - Username/password authentication with validation
    - Branded blue gradient background
 
 2. **Dashboard**
    - "New Time Entry" button for quick access
    - Search box for finding jobs
-   - Recent Jobs list showing total hours per job
-   - Visual job cards with hours badges
+   - Recent Jobs section showing total hours per job
+   - Recent Time Entries section showing individual logs with employee, date, and notes
+   - Visual cards with Tidwell-branded colors
 
-3. **Multi-Step Time Entry Wizard**
-   - Step 1: Select Job from active projects
-   - Step 2: Enter Employee name and Date
-   - Step 3: Enter Time Details (Start/End/Lunch times)
-   - Step 4: Add Notes, Extras, and Review before submitting
-   - Visual stepper showing progress
+3. **Single-Page Time Entry Form**
+   - All fields visible on one clean page
+   - Organized into sections: Job Details, Time Details, Additional Information
+   - Select Job, Employee, Date fields
+   - Time entry with Start/End/Lunch times
    - Automatic hours calculation (including lunch deduction)
+   - Notes and Extras fields
+   - Cancel and Submit buttons with Tidwell branding
 
 4. **Reports Page**
    - Summary statistics with period filters (This Week/Month/Year)
@@ -45,6 +47,7 @@ A Progressive Web App (PWA) time logging portal for Tidwell Roofing & Sheet Meta
    - Dashboard, New Entry, Reports, and Logout options
    - Active state highlighting
    - Fixed position for easy access
+   - Properly spaced to avoid content overlap
 
 6. **Progressive Web App**
    - Installable on mobile devices
@@ -94,14 +97,16 @@ For testing purposes, use any of these credentials to login:
 - Username: `employee` / Password: `demo1234`
 
 ## Recent Changes
-- **November 16, 2025**: Complete application redesign
+- **November 16, 2025**: Complete application redesign with single-page time entry
   - Implemented React Router for multi-page navigation
   - Created TimeLogContext with useReducer for state management
   - Added localStorage persistence to save entries across sessions
-  - Built Dashboard page showing recent jobs and hours
-  - Created multi-step wizard for time entry (4 steps with stepper)
+  - Built Dashboard page showing recent jobs summaries and individual time entries
+  - Created single-page time entry form with clean, organized layout (replaced multi-step wizard)
   - Built Reports page with period filters and statistics
   - Implemented bottom navigation for easy page switching
+  - Fixed bottom navigation alignment issues
+  - Added credential validation to login (demo credentials: tidwell/roofing, admin/password, employee/demo1234)
   - Styled all pages to match Tidwell brand (blue #2E5A8E, red #D62027)
   - Configured PWA manifest and service worker
   - Set up deployment configuration for Replit Autoscale
