@@ -33,6 +33,7 @@ function Login({ onLogin }: LoginProps) {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
+              autoComplete="username"
               required
             />
           </div>
@@ -44,6 +45,7 @@ function Login({ onLogin }: LoginProps) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              autoComplete="current-password"
               required
             />
           </div>
