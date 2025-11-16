@@ -21,21 +21,35 @@ A Progressive Web App (PWA) time logging portal for Tidwell Roofing & Sheet Meta
    - Simple username/password authentication
    - Branded blue gradient background
 
-2. **Time Logging Portal**
-   - Job selection from active projects
-   - Date picker (defaults to today)
-   - Time entry fields:
-     - Start Time
-     - End Time
-     - Lunch Start (optional)
-     - Lunch End (optional)
-   - Notes field for work details
-   - Extras Outside of Scope field for additional work
-   - Recent submissions display
+2. **Dashboard**
+   - "New Time Entry" button for quick access
+   - Search box for finding jobs
+   - Recent Jobs list showing total hours per job
+   - Visual job cards with hours badges
 
-3. **Progressive Web App**
+3. **Multi-Step Time Entry Wizard**
+   - Step 1: Select Job from active projects
+   - Step 2: Enter Employee name and Date
+   - Step 3: Enter Time Details (Start/End/Lunch times)
+   - Step 4: Add Notes, Extras, and Review before submitting
+   - Visual stepper showing progress
+   - Automatic hours calculation (including lunch deduction)
+
+4. **Reports Page**
+   - Summary statistics with period filters (This Week/Month/Year)
+   - Total hours and entry count display
+   - Recent Entries list with job names, employees, and dates
+   - Visual cards and badges
+
+5. **Bottom Navigation**
+   - Dashboard, New Entry, Reports, and Logout options
+   - Active state highlighting
+   - Fixed position for easy access
+
+6. **Progressive Web App**
    - Installable on mobile devices
-   - Offline capability
+   - Offline capability with service worker
+   - localStorage persistence for data
    - App-like experience
 
 ## Project Structure
@@ -45,16 +59,26 @@ A Progressive Web App (PWA) time logging portal for Tidwell Roofing & Sheet Meta
 │   ├── components/
 │   │   ├── Login.tsx          - Login screen component
 │   │   ├── Login.css          - Login screen styles
-│   │   ├── TimeLog.tsx        - Time logging component
-│   │   └── TimeLog.css        - Time log styles
+│   │   ├── BottomNav.tsx      - Bottom navigation bar
+│   │   └── BottomNav.css      - Navigation styles
+│   ├── pages/
+│   │   ├── Dashboard.tsx      - Dashboard with recent jobs
+│   │   ├── Dashboard.css      - Dashboard styles
+│   │   ├── NewEntry.tsx       - Multi-step time entry wizard
+│   │   ├── NewEntry.css       - Wizard styles
+│   │   ├── Reports.tsx        - Reports and statistics
+│   │   └── Reports.css        - Reports styles
+│   ├── context/
+│   │   └── TimeLogContext.tsx - Global state management with reducer
 │   ├── assets/
 │   │   └── tidwell-logo.png   - Company logo
-│   ├── App.tsx                - Main app component
+│   ├── types.ts               - TypeScript type definitions
+│   ├── App.tsx                - Main app with routing
 │   ├── App.css                - Global app styles
 │   ├── main.tsx               - Entry point
 │   └── index.css              - Global CSS reset
 ├── index.html                 - HTML template
-├── vite.config.ts             - Vite configuration
+├── vite.config.ts             - Vite configuration with PWA
 └── package.json               - Dependencies and scripts
 ```
 
@@ -64,17 +88,32 @@ A Progressive Web App (PWA) time logging portal for Tidwell Roofing & Sheet Meta
 - **Preview**: `npm run preview`
 
 ## Recent Changes
-- **November 16, 2025**: Initial project setup
-  - Created React + TypeScript PWA with Vite
-  - Implemented login screen with Tidwell branding
-  - Built time logging portal with all required fields
+- **November 16, 2025**: Complete application redesign
+  - Implemented React Router for multi-page navigation
+  - Created TimeLogContext with useReducer for state management
+  - Added localStorage persistence to save entries across sessions
+  - Built Dashboard page showing recent jobs and hours
+  - Created multi-step wizard for time entry (4 steps with stepper)
+  - Built Reports page with period filters and statistics
+  - Implemented bottom navigation for easy page switching
+  - Styled all pages to match Tidwell brand (blue #2E5A8E, red #D62027)
   - Configured PWA manifest and service worker
-  - Set up deployment configuration
+  - Set up deployment configuration for Replit Autoscale
+
+## Technical Details
+- **State Management**: React Context with useReducer pattern
+- **Data Persistence**: localStorage for client-side data storage
+- **Routing**: React Router v6 with protected routes
+- **Hours Calculation**: Automatic calculation of work hours with lunch deduction
+- **Navigation**: Bottom nav with active state highlighting
 
 ## Notes
-- The app uses in-memory state management (entries are lost on page refresh)
+- The app uses localStorage to persist entries across page refreshes
+- Entries are stored in the browser's localStorage (client-side only)
 - For production use, consider adding:
-  - Backend API for data persistence
-  - Real authentication system
-  - Database integration
-  - User role management
+  - Backend API for centralized data storage
+  - Real authentication system (JWT, OAuth)
+  - Database integration (PostgreSQL, MongoDB)
+  - User role management and permissions
+  - Data export features (CSV, PDF reports)
+  - Employee management system

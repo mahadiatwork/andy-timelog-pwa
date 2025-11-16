@@ -9,12 +9,23 @@ interface LoginProps {
 function Login({ onLogin }: LoginProps) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (username.trim()) {
-      onLogin(username)
+    setError('')
+    
+    if (!username.trim() || !password.trim()) {
+      setError('Please enter both username and password')
+      return
     }
+    
+    if (password.length < 4) {
+      setError('Invalid credentials. Please try again.')
+      return
+    }
+    
+    onLogin(username.trim())
   }
 
   return (
@@ -24,6 +35,7 @@ function Login({ onLogin }: LoginProps) {
           <img src={tidwellLogo} alt="Tidwell Roofing & Sheet Metal" className="login-logo" />
         </div>
         <h1 className="login-title">Time Log Portal</h1>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="username">Username</label>

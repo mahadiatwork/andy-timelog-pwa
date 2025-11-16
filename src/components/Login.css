@@ -32,7 +32,19 @@
   color: #2E5A8E;
   font-size: 24px;
   font-weight: 600;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  background: #fee;
+  color: #D62027;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #D62027;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .login-form {
