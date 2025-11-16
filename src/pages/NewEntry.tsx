@@ -3,24 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useTimeLog } from '../context/TimeLogContext'
 import './NewEntry.css'
 
-interface EntryData {
-  jobId: string
-  jobName: string
-  employee: string
-  date: string
-  startTime: string
-  endTime: string
-  lunchStart: string
-  lunchEnd: string
-  notes: string
-  extras: string
-}
-
 function NewEntry() {
   const navigate = useNavigate()
   const { state, addEntry } = useTimeLog()
-  const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState<EntryData>({
+  
+  const [formData, setFormData] = useState({
     jobId: '',
     jobName: '',
     employee: state.currentUser,
@@ -33,8 +20,8 @@ function NewEntry() {
     extras: ''
   })
 
-  const updateData = (updates: Partial<EntryData>) => {
-    setFormData(prev => ({ ...prev, ...updates }))
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
   }
 
   const calculateHours = () => {
@@ -54,15 +41,13 @@ function NewEntry() {
     return Math.max(0, hours)
   }
 
-  const handleNext = () => {
-    if (step < 4) setStep(step + 1)
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.jobId || !formData.employee || !formData.startTime || !formData.endTime) {
+      alert('Please fill in all required fields')
+      return
+    }
 
-  const handlePrevious = () => {
-    if (step > 1) setStep(step - 1)
-  }
-
-  const handleSubmit = () => {
     const totalHours = calculateHours()
     addEntry({
       ...formData,
@@ -71,47 +56,35 @@ function NewEntry() {
     navigate('/dashboard')
   }
 
-  const canProceed = () => {
-    if (step === 1) return formData.jobId !== ''
-    if (step === 2) return formData.employee !== '' && formData.date !== ''
-    if (step === 3) return formData.startTime !== '' && formData.endTime !== ''
-    return true
+  const handleCancel = () => {
+    navigate('/dashboard')
   }
 
   return (
-    <div className="new-entry">
-      <header className="new-entry-header">
-        <button className="back-button" onClick={() => navigate('/dashboard')}>
-          ← Back
-        </button>
+    <div className="new-entry-page">
+      <div className="page-header">
         <h1>New Time Entry</h1>
-      </header>
-
-      <div className="stepper">
-        {[1, 2, 3, 4].map((s) => (
-          <div key={s} className={`step ${s === step ? 'active' : ''} ${s < step ? 'completed' : ''}`}>
-            {s}
-          </div>
-        ))}
-        <div className="stepper-line"></div>
       </div>
 
-      <div className="new-entry-content">
-        {step === 1 && (
-          <div className="step-content">
-            <h2>Select Job</h2>
-            <p className="step-description">Choose the job you worked on</p>
-            <div className="form-field">
-              <label>Job</label>
-              <select 
-                value={formData.jobId} 
+      <div className="form-container">
+        <form onSubmit={handleSubmit}>
+          <div className="form-section">
+            <h2>Job Details</h2>
+            
+            <div className="form-group">
+              <label htmlFor="job">Job *</label>
+              <select
+                id="job"
+                value={formData.jobId}
                 onChange={(e) => {
                   const job = state.jobs.find(j => j.id === e.target.value)
-                  updateData({ 
+                  setFormData(prev => ({
+                    ...prev,
                     jobId: e.target.value,
                     jobName: job?.name || ''
-                  })
+                  }))
                 }}
+                required
               >
                 <option value="">Select a job</option>
                 {state.jobs.map((job) => (
@@ -121,154 +94,125 @@ function NewEntry() {
                 ))}
               </select>
             </div>
-          </div>
-        )}
 
-        {step === 2 && (
-          <div className="step-content">
-            <h2>Employee & Date</h2>
-            <p className="step-description">Who performed this work?</p>
-            <div className="form-field">
-              <label>Employee</label>
-              <input
-                type="text"
-                value={formData.employee}
-                onChange={(e) => updateData({ employee: e.target.value })}
-                placeholder="Employee name"
-              />
-            </div>
-            <div className="form-field">
-              <label>Date</label>
-              <input
-                type="date"
-                value={formData.date}
-                onChange={(e) => updateData({ date: e.target.value })}
-              />
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="employee">Employee *</label>
+                <input
+                  type="text"
+                  id="employee"
+                  value={formData.employee}
+                  onChange={(e) => updateField('employee', e.target.value)}
+                  placeholder="Employee name"
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="date">Date *</label>
+                <input
+                  type="date"
+                  id="date"
+                  value={formData.date}
+                  onChange={(e) => updateField('date', e.target.value)}
+                  required
+                />
+              </div>
             </div>
           </div>
-        )}
 
-        {step === 3 && (
-          <div className="step-content">
+          <div className="form-section">
             <h2>Time Details</h2>
-            <p className="step-description">Enter work hours for this job</p>
             
-            <div className="time-row">
-              <div className="form-field">
-                <label>Start Time *</label>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="startTime">Start Time *</label>
                 <input
                   type="time"
+                  id="startTime"
                   value={formData.startTime}
-                  onChange={(e) => updateData({ startTime: e.target.value })}
+                  onChange={(e) => updateField('startTime', e.target.value)}
+                  required
                 />
               </div>
-              <div className="form-field">
-                <label>End Time *</label>
+              
+              <div className="form-group">
+                <label htmlFor="endTime">End Time *</label>
                 <input
                   type="time"
+                  id="endTime"
                   value={formData.endTime}
-                  onChange={(e) => updateData({ endTime: e.target.value })}
+                  onChange={(e) => updateField('endTime', e.target.value)}
+                  required
                 />
               </div>
             </div>
 
-            <div className="time-row">
-              <div className="form-field">
-                <label>Lunch Start</label>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="lunchStart">Lunch Start</label>
                 <input
                   type="time"
+                  id="lunchStart"
                   value={formData.lunchStart}
-                  onChange={(e) => updateData({ lunchStart: e.target.value })}
+                  onChange={(e) => updateField('lunchStart', e.target.value)}
                 />
               </div>
-              <div className="form-field">
-                <label>Lunch End</label>
+              
+              <div className="form-group">
+                <label htmlFor="lunchEnd">Lunch End</label>
                 <input
                   type="time"
+                  id="lunchEnd"
                   value={formData.lunchEnd}
-                  onChange={(e) => updateData({ lunchEnd: e.target.value })}
+                  onChange={(e) => updateField('lunchEnd', e.target.value)}
                 />
               </div>
             </div>
 
             {formData.startTime && formData.endTime && (
-              <div className="total-hours-display">
-                Total Hours: <strong>{calculateHours().toFixed(1)}h</strong>
+              <div className="hours-display">
+                <span className="hours-label">Total Hours:</span>
+                <span className="hours-value">{calculateHours().toFixed(1)} hours</span>
               </div>
             )}
           </div>
-        )}
 
-        {step === 4 && (
-          <div className="step-content">
-            <h2>Notes & Extras</h2>
-            <p className="step-description">Add any additional details</p>
+          <div className="form-section">
+            <h2>Additional Information</h2>
             
-            <div className="form-field">
-              <label>Notes</label>
+            <div className="form-group">
+              <label htmlFor="notes">Notes</label>
               <textarea
+                id="notes"
                 value={formData.notes}
-                onChange={(e) => updateData({ notes: e.target.value })}
-                rows={4}
-                placeholder="Enter any notes about the work performed..."
+                onChange={(e) => updateField('notes', e.target.value)}
+                rows={3}
+                placeholder="Add any notes about the work performed..."
               />
             </div>
 
-            <div className="form-field">
-              <label>Extras Outside of Scope</label>
+            <div className="form-group">
+              <label htmlFor="extras">Extras Outside of Scope</label>
               <textarea
+                id="extras"
                 value={formData.extras}
-                onChange={(e) => updateData({ extras: e.target.value })}
+                onChange={(e) => updateField('extras', e.target.value)}
                 rows={3}
                 placeholder="Describe any extra work performed..."
               />
             </div>
-
-            <div className="review-summary">
-              <h3>Review Your Entry</h3>
-              <div className="review-item">
-                <span className="review-label">Job:</span>
-                <span className="review-value">{formData.jobName}</span>
-              </div>
-              <div className="review-item">
-                <span className="review-label">Employee:</span>
-                <span className="review-value">{formData.employee}</span>
-              </div>
-              <div className="review-item">
-                <span className="review-label">Date:</span>
-                <span className="review-value">{new Date(formData.date).toLocaleDateString()}</span>
-              </div>
-              <div className="review-item">
-                <span className="review-label">Hours:</span>
-                <span className="review-value">{calculateHours().toFixed(1)}h</span>
-              </div>
-            </div>
           </div>
-        )}
-      </div>
 
-      <div className="wizard-actions">
-        {step > 1 && (
-          <button className="btn-secondary" onClick={handlePrevious}>
-            Previous
-          </button>
-        )}
-        {step < 4 ? (
-          <button 
-            className="btn-primary" 
-            onClick={handleNext}
-            disabled={!canProceed()}
-          >
-            Next
-          </button>
-        ) : (
-          <button 
-            className="btn-primary" 
-            onClick={handleSubmit}
-          >
-            Submit Entry
-          </button>
-        )}
+          <div className="form-actions">
+            <button type="button" className="btn-cancel" onClick={handleCancel}>
+              Cancel
+            </button>
+            <button type="submit" className="btn-submit">
+              Submit Entry
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   )
